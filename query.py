@@ -50,7 +50,7 @@ q1_ = Brand.query.filter_by(brand_id = 'ram').all()
 q2 = db.session.query(Model).filter(Model.name == 'Corvette', Model.brand_id == 'che')
 
 # Get all models that are older than 1960.
-q3 = db.session.query(Model).filter(Model.year > 1960). all()
+q3 = db.session.query(Model).filter(Model.year < 1960). all()
 
 # Get all brands that were founded after 1920.
 q4 = db.session.query(Brand).filter(Brand.founded > 1920). all()
@@ -78,26 +78,44 @@ def get_model_info(year):
     """Takes in a year and prints out each model name, brand name, and brand
     headquarters for that year using only ONE database query."""
 
-    pass
+    all_models_by_year = db.session.query(Model).filter(Model.year == year).all()
+
+    # If the list is not empty
+    if all_models_by_year:
+        for model in all_models_by_year:
+            print(f"Model name: {model.name} \nBrand name: {model.brand.name} \nBrand HQ: {model.brand.headquarters}")
+    else:
+        print("No models from that year in the database.")
 
 
 def get_brands_summary():
     """Prints out each brand name (once) and all of that brand's models,
     including their year, using only ONE database query."""
 
-    pass
+    all_brands = db.session.query(Brand).all()
 
+    for brand in all_brands:
+        print(f"Brand name: {brand.name}")
+        if brand.models:
+            for model in brand.models:
+                print(f"{model.year} {model.name}")
+        else:
+            print("None")
+    
 
 def search_brands_by_name(mystr):
     """Returns all Brand objects corresponding to brands whose names include
     the given string."""
 
-    pass
+    all_brands_by_name = db.session.query(Brand).filter(Brand.name.like('%mystr%')).all()
+
+    return all_brands_by_name
 
 
 def get_models_between(start_year, end_year):
     """Returns all Model objects corresponding to models made between
     start_year (inclusive) and end_year (exclusive)."""
 
-    pass
+    models_between = db.session.query(Model).filter(Model.year >= start_year, Brand.founded < end_year).all()
 
+    return models_between

@@ -45,7 +45,7 @@ class Model(db.Model):
 
 
     def __repr__(self):
-        return f'<Model model_id={self.model_id} name={self.name}>'
+        return f'<Model model_id={self.model_id} name={self.name} year={self.year}>'
 
 
 # End Part 1
