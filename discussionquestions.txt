@@ -1,0 +1,69 @@
+Discussion Questions
+
+SECTION 1: SQLAlchemy
+- What is an ORM?
+
+    ORMs or "Object Relational Mappers" is how we can turn Python objects into SQL.
+    For example:
+
+        class Cat (db.Model):
+        """Feline cactus."""
+
+        __tablename__ = "cats"
+
+        cat_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+        name = db.Column(db.String(50), nullable=False, unique=True)
+        color = db.Column(db.String(10), nullable=True)
+        hunger = db.Column(db.Integer, nullable=False, default=20)
+
+    ... turns into SQL like this:
+
+        CREATE TABLE cats (
+            cat_id SERIAL PRIMARY KEY,
+            name VARCHAR(50), NOT NULL UNIQUE,
+            color VARCHAR(10),
+            hunger INTEGER NOT NULL
+        );
+
+- How to define and create new tables in SQLAlchemy?
+
+    Use: db.create_all()
+
+- SQLAlchemy methods to know
+
+    .filter()
+
+    .filter_by()
+
+    .all(), .one(), .first()
+
+- JOINs in SQLAlchemy
+
+- Relationships in SQLAlchemy
+
+- What is the purpose of a backref in SQLAlchemy?
+
+    Backrefs are a way to define relationships that make them easier to define and/or use. 
+
+SECTION 2: Data Modeling
+- Types of relationships
+    One-to-many
+
+    One-to-one
+
+    Many-to-many
+
+- Association tables, middle tables
+
+- How to draw data model diagrams
+
+- What is data normalization?
+
+    Data normalization refers to the practice of a piece of information existing in exactly one place and relates directly to the key.
+    It prevents repeating dependencies (i.e. storing a person's age and name in two places) and representing multiple data for the same category in columns. 
+
+- What is referential integrity?
+
+    Referential integrity refers to the logical depenency of a foreign key on a primary key; or the relationship between tables.
+    You cannot delete rows from the parent table before you delete rows from the child table. 
+    You also cannot create rows from the child table. 
